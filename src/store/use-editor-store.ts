@@ -3,7 +3,7 @@ import { type Editor } from "@tiptap/react"
 
 interface EditorState { 
     editor: Editor | null;
-    setEditor: (editor: Editor) => void;
+    setEditor: (editor: Editor | null) => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
