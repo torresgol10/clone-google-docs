@@ -15,6 +15,7 @@ import FontFamily from '@tiptap/extension-font-family'
 import TextStyle from '@tiptap/extension-text-style'
 import { Color } from '@tiptap/extension-color'
 import Higlight from '@tiptap/extension-highlight'
+import Link from '@tiptap/extension-link'
 
 import { useEditorStore } from '@/store/use-editor-store'
 
@@ -74,7 +75,11 @@ export default function Editor() {
       Higlight.configure(
         { multicolor: true }
       ),
-      Link
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https"
+      })
     ],
     content: `
         <table>
