@@ -19,6 +19,7 @@ import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 
 import { useEditorStore } from '@/store/use-editor-store'
+import { FontSizeExtension } from '@/extensions/font-size'
 
 
 export default function Editor() {
@@ -83,7 +84,8 @@ export default function Editor() {
       }),
       TextAlign.configure({
         types: ['heading', 'paragraph']
-      })
+      }),
+      FontSizeExtension
     ],
     content: `
         <table>
