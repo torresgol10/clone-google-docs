@@ -191,7 +191,7 @@ export default function Navbar() {
                                             </MenubarItem>
                                         </MenubarSubContent>
                                     </MenubarSub>
-                                    <MenubarItem onClick={() => editor?.chain().focus().removeFormatting().run()}>
+                                    <MenubarItem onClick={() => editor?.chain().focus().unsetAllMarks().run()}>
                                         <RemoveFormattingIcon className="size-4 mr-2" />
                                         Remove Formatting
                                     </MenubarItem>
