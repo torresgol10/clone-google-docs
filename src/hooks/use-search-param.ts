@@ -1,8 +1,8 @@
-import { parseAsString, useQueryState} from "nuqs"
+import { parseAsString, useQueryState } from "nuqs"
 
-export default function useSearchParam(key: string){
+export default function useSearchParam() {
     return useQueryState(
         "search",
-        parseAsString.withDefault("").withOptions({clearOnDefault: true})
+        parseAsString.withDefault("").withOptions({ clearOnDefault: true })
     )
 }
