@@ -1,8 +1,8 @@
 export const template = [
     { 
         id: "black", 
-        label: "Black Document", 
-        imageUrl: "/black-document.svg"
+        label: "Blank Document", 
+        imageUrl: "/blank-document.svg"
     },
     { 
         id: "software-proposal", 
