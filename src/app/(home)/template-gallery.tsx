@@ -1,11 +1,29 @@
 'use client'
+import { useState } from "react";
 
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { cn } from "@/lib/utils";
 import { template } from "@/constants/templates";
+import { useRouter } from "next/navigation";
+import { api } from "../../../convex/_generated/api";
+import { useMutation } from "convex/react";
+
+import { cn } from "@/lib/utils";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export default function TemplateGallery() {
-    const isCreatig = false
+    const router = useRouter()
+    const create = useMutation(api.documents.create)
+    const [isCreating, setIsCreating] = useState(false)
+
+    const onTemplateClick = (title: string, initialContent: string) => {
+        setIsCreating(true)
+        create({ title, initialContent }).then((documentId) => {
+            router.push(`/documents/${documentId}`)
+        })
+            .finally(() => {
+                setIsCreating(false)
+            })
+    }
+
     return (
         <div className="bg-[#F1F3F4]">
             <div className="max-w-screen-xl mx-auto px-16 py-6 flex flex-col gap-y-4">
@@ -19,11 +37,11 @@ export default function TemplateGallery() {
                             >
                                 <div className={cn(
                                     "aspect-[3/4] flex flex-col gap-y-2.5",
-                                    isCreatig && "pointer-events-none opacity.50"
+                                    isCreating && "pointer-eventsuseState(false) opacity.50"
                                 )}>
-                                    <button 
-                                    disabled={isCreatig}
-                                        onClick={() => {}}
+                                    <button
+                                        disabled={isCreating}
+                                        onClick={() => onTemplateClick(template.label, '')}
                                         style={{
                                             backgroundImage: `url(${template.imageUrl})`,
                                             backgroundSize: "cover",
