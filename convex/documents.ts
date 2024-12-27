@@ -1,7 +1,6 @@
 import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { paginationOptsValidator } from "convex/server";
-import { BsCartX } from "react-icons/bs";
 
 export const create = mutation({
     args: {
@@ -15,10 +14,13 @@ export const create = mutation({
             throw new ConvexError("unathourized")
         }
 
+        const organizationId = (user.organization_id ?? undefined) as string | undefined;
+
         return await ctx.db.insert('documents', {
             title: args.title ?? 'Untitled document',
             ownerId: user.subject,
-            initialContent: args.initialContent
+            organizationId,
+            initialContent: args.initialContent,
         })
     }
 })
@@ -32,6 +34,16 @@ export const get = query({
             throw new ConvexError("unathourized")
         }
 
+        const organizationId = (user.organization_id ?? undefined) as string | undefined;
+
+        if (search && organizationId) {
+            return await ctx.db
+                .query("documents")
+                .withSearchIndex("search_title", (q) =>
+                    q.search("title", search).eq("organizationId", organizationId))
+                .paginate(paginationOpts)
+        }
+
         if (search) {
             return await ctx.db
                 .query("documents")
@@ -41,6 +53,12 @@ export const get = query({
                 .paginate(paginationOpts)
         }
 
+        if (organizationId) {
+            return await ctx.db
+                .query("documents")
+                .withIndex("by_organization_id", (q) => q.eq("organizationId", organizationId))
+                .paginate(paginationOpts)
+        }
 
         return await ctx.db
             .query('documents')
@@ -57,6 +75,7 @@ export const removeById = mutation({
         if (!user) {
             throw new ConvexError("Unauthorized")
         }
+        const organizationId = (user.organization_id ?? undefined) as string | undefined;
 
         const document = await ctx.db.get(args.id);
 
@@ -65,10 +84,12 @@ export const removeById = mutation({
         }
 
         const isOwner = document.ownerId === user.subject;
+        const isOrganizacionMember = document.organizationId === organizationId
 
-        if (!isOwner) {
+        if (!isOwner && !isOrganizacionMember) {
             throw new ConvexError("Unauthorized")
         }
+
         return await ctx.db.delete(args.id)
     }
 })
@@ -83,6 +104,8 @@ export const updateById = mutation({
             throw new ConvexError("Unauthorized")
         }
 
+        const organizationId = (user.organization_id ?? undefined) as string | undefined;
+
         const document = await ctx.db.get(args.id);
 
         if (!document) {
@@ -90,10 +113,12 @@ export const updateById = mutation({
         }
 
         const isOwner = document.ownerId === user.subject;
+        const isOrganizacionMember = document.organizationId === organizationId
 
-        if (!isOwner) {
+        if (!isOwner && !isOrganizacionMember) {
             throw new ConvexError("Unauthorized")
         }
+
         return await ctx.db.patch(args.id, { title: args.title })
     }
 })
