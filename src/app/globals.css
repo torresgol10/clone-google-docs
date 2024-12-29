@@ -90,16 +90,17 @@ body {
 }
 
 .tiptap {
-    /* Link styles */
-    a {
-      @apply text-blue-600;
-      cursor: pointer;
-  
-      &:hover {
-        @apply underline
-      }
+
+  /* Link styles */
+  a {
+    @apply text-blue-600;
+    cursor: pointer;
+
+    &:hover {
+      @apply underline
     }
-  
+  }
+
 
   /* Heading styles */
   h1,
@@ -264,5 +265,28 @@ body {
       outline: 3px solid var(--primary);
     }
   }
+}
 
+/* For mobile */
+.floating-threads {
+  display: none;
+}
+
+/* For desktop */
+.anchored-threads {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  position: absolute;
+  right: 12px;
+}
+
+@media (max-width: 640px) {
+  .floating-threads {
+    display: block;
+  }
+
+  .anchored-threads {
+    display: none;
+  }
 }

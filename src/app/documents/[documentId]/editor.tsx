@@ -24,6 +24,7 @@ import { LineHeightExtension } from '@/extensions/line-height'
 import Rules from './rules'
 
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
+import { Threads } from './threads'
 
 export default function Editor() {
   const liveblocks = useLiveblocksExtension()
@@ -63,7 +64,9 @@ export default function Editor() {
     },
     extensions: [
       liveblocks,
-      StarterKit,
+      StarterKit.configure({
+        history: false
+      }),
       TaskList,
       TaskItem.configure({
         nested: true,
@@ -104,6 +107,7 @@ export default function Editor() {
       <Rules />
       <div className='min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0'>
         <EditorContent editor={editor} />
+        <Threads editor={editor} />
       </div>
     </div>
   )
