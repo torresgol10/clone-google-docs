@@ -1,13 +1,21 @@
 'use client'
+import { useStorage, useMutation } from '@liveblocks/react';
 import { useRef, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 
 const markers = Array.from({ length: 83 }, (_, i) => i)
 
 export default function Rules() {
-    const [leftMargin, setLeftMargin] = useState(56)
-    const [rightMargin, setRightMargin] = useState(56)
+    const leftMargin = useStorage((root) => root.leftMargin ?? 56) as number
+    const setLeftMargin = useMutation(({storage}, position: number) => {
+        storage.set("leftMargin", position)
+    },[])
 
+    const rightMargin = useStorage((root) => root.rightMargin ?? 56) as number
+    const setRightMargin = useMutation(({storage}, position: number) => {
+        storage.set("rightMargin", position)
+    },[])
+  
     const [isDraggingLeft, setIsDragginLeft] = useState(false)
     const [isDraggingRight, setIsDragginRight] = useState(false)
 
