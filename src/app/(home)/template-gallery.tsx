@@ -8,20 +8,27 @@ import { useMutation } from "convex/react";
 
 import { cn } from "@/lib/utils";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { toast } from "sonner";
 
 export default function TemplateGallery() {
     const router = useRouter()
     const create = useMutation(api.documents.create)
     const [isCreating, setIsCreating] = useState(false)
 
-    const onTemplateClick = (title: string, initialContent: string) => {
+    const onTemplateClick = async (title: string, initialContent: string) => {
         setIsCreating(true)
-        create({ title, initialContent }).then((documentId) => {
+
+        try {
+            const documentId = await create({ title, initialContent })
+            
+            toast.success("Document created")
             router.push(`/documents/${documentId}`)
-        })
-            .finally(() => {
-                setIsCreating(false)
-            })
+        } catch (e) {
+            toast.error("Something went wrong")
+        }
+
+
+        setIsCreating(false)
     }
 
     return (

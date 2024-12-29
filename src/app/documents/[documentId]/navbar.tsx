@@ -6,6 +6,7 @@ import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, Me
 import { BoldIcon, FileIcon, FileJsonIcon, FilePenIcon, FilePlusIcon, FileTextIcon, GlobeIcon, ItalicIcon, PrinterIcon, Redo2Icon, RemoveFormatting, RemoveFormattingIcon, StrikethroughIcon, TextIcon, TrashIcon, UnderlineIcon, Undo2Icon } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
 import { useEditorStore } from "@/store/use-editor-store";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 
 export default function Navbar() {
     const { editor } = useEditorStore()
@@ -23,7 +24,7 @@ export default function Navbar() {
     }
 
     const onSaveJSON = () => {
-        if(!editor) return;
+        if (!editor) return;
 
         const content = editor.getJSON()
         const blob = new Blob([JSON.stringify(content)], {
@@ -33,7 +34,7 @@ export default function Navbar() {
     }
 
     const onSaveHTML = () => {
-        if(!editor) return;
+        if (!editor) return;
 
         const content = editor.getHTML()
         const blob = new Blob([content], {
@@ -43,7 +44,7 @@ export default function Navbar() {
     }
 
     const onSaveText = () => {
-        if(!editor) return;
+        if (!editor) return;
 
         const content = editor.getText()
         const blob = new Blob([content], {
@@ -201,6 +202,15 @@ export default function Navbar() {
                         </Menubar>
                     </div>
                 </div>
+            </div>
+            <div className="flex gap-3 items-center pl-6">
+                <OrganizationSwitcher
+                    afterCreateOrganizationUrl="/"
+                    afterLeaveOrganizationUrl="/"
+                    afterSelectOrganizationUrl="/"
+                    afterSelectPersonalUrl="/"
+                />
+                <UserButton />
             </div>
         </nav>
     )
