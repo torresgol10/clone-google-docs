@@ -23,8 +23,10 @@ import { FontSizeExtension } from '@/extensions/font-size'
 import { LineHeightExtension } from '@/extensions/line-height'
 import Rules from './rules'
 
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 
 export default function Editor() {
+  const liveblocks = useLiveblocksExtension()
   const { setEditor } = useEditorStore()
 
   const editor = useEditor({
@@ -60,6 +62,7 @@ export default function Editor() {
       }
     },
     extensions: [
+      liveblocks,
       StarterKit,
       TaskList,
       TaskItem.configure({
