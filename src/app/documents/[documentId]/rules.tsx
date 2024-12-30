@@ -1,4 +1,5 @@
 'use client'
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from '@/constants/margins';
 import { useStorage, useMutation } from '@liveblocks/react';
 import { useRef, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
@@ -6,16 +7,16 @@ import { FaCaretDown } from 'react-icons/fa';
 const markers = Array.from({ length: 83 }, (_, i) => i)
 
 export default function Rules() {
-    const leftMargin = useStorage((root) => root.leftMargin ?? 56) as number
-    const setLeftMargin = useMutation(({storage}, position: number) => {
+    const leftMargin = useStorage((root) => root.leftMargin ?? LEFT_MARGIN_DEFAULT) as number
+    const setLeftMargin = useMutation(({ storage }, position: number) => {
         storage.set("leftMargin", position)
-    },[])
+    }, [])
 
-    const rightMargin = useStorage((root) => root.rightMargin ?? 56) as number
-    const setRightMargin = useMutation(({storage}, position: number) => {
+    const rightMargin = useStorage((root) => root.rightMargin ?? RIGHT_MARGIN_DEFAULT) as number
+    const setRightMargin = useMutation(({ storage }, position: number) => {
         storage.set("rightMargin", position)
-    },[])
-  
+    }, [])
+
     const [isDraggingLeft, setIsDragginLeft] = useState(false)
     const [isDraggingRight, setIsDragginRight] = useState(false)
 
@@ -39,11 +40,11 @@ export default function Rules() {
                 const relativeX = e.clientX - containerRect.left
                 const rawPosition = Math.max(0, Math.min(PAGE_WIDTH, relativeX))
 
-                if(isDraggingLeft){
+                if (isDraggingLeft) {
                     const maxLeftPosition = PAGE_WIDTH - rightMargin - MINIMUN_SPACE
                     const newLeftPosition = Math.min(rawPosition, maxLeftPosition)
                     setLeftMargin(newLeftPosition)
-                }else if(isDraggingRight){
+                } else if (isDraggingRight) {
                     const maxRightPosition = PAGE_WIDTH - (leftMargin + MINIMUN_SPACE)
                     const newRightPosition = Math.max(PAGE_WIDTH - rawPosition, 0)
                     const constainedRightPosition = Math.min(newRightPosition, maxRightPosition)
@@ -59,11 +60,11 @@ export default function Rules() {
     }
 
     const handleLeftDoubleClick = () => {
-        setLeftMargin(56)
+        setLeftMargin(LEFT_MARGIN_DEFAULT)
     }
 
     const handleRightDoubleClick = () => {
-        setRightMargin(56)
+        setRightMargin(RIGHT_MARGIN_DEFAULT)
     }
 
     return (
@@ -126,13 +127,13 @@ const Marker = ({ position, isLeft, isDragging, onMouseDown, onDoubleClick }: Ma
             onDoubleClick={onDoubleClick}>
             <FaCaretDown className="absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2" />
             <div className='absolute left-1/2 top-4 transform -translate-x-1/2'
-            style={{
-                height: "100vh",
-                width: "1px",
-                transform: "scaleX(0.5)",
-                backgroundColor: "#3b72f6",
-                display: isDragging ? "block" : "none"
-            }} />
+                style={{
+                    height: "100vh",
+                    width: "1px",
+                    transform: "scaleX(0.5)",
+                    backgroundColor: "#3b72f6",
+                    display: isDragging ? "block" : "none"
+                }} />
         </div>
     )
 }
