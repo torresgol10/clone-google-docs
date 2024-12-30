@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 
-import { template } from "@/constants/templates";
+import { templates } from "@/constants/templates";
 import { useRouter } from "next/navigation";
 import { api } from "../../../convex/_generated/api";
 import { useMutation } from "convex/react";
@@ -37,7 +37,7 @@ export default function TemplateGallery() {
                 <h3 className="font-medium">Start a new document</h3>
                 <Carousel>
                     <CarouselContent className="-mt-4">
-                        {template.map((template) => (
+                        {templates.map((template) => (
                             <CarouselItem
                                 key={template.id}
                                 className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 2xl:basis-[14.285714%] pl-4"
@@ -48,7 +48,7 @@ export default function TemplateGallery() {
                                 )}>
                                     <button
                                         disabled={isCreating}
-                                        onClick={() => onTemplateClick(template.label, '')}
+                                        onClick={() => onTemplateClick(template.label, template?.initialContent ?? '')}
                                         style={{
                                             backgroundImage: `url(${template.imageUrl})`,
                                             backgroundSize: "cover",
