@@ -17,6 +17,7 @@ type User = {
     id: string;
     name: string;
     avatar: string;
+    color: string;
 }
 
 export default function Room({ children }: { children: ReactNode }) {

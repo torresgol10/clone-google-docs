@@ -46,7 +46,7 @@ export default function RemoveDialog({ documentId, children }: RemoveDialogProps
                                 await remove({ id: documentId })
                                 toast.success("Document removed")
                                 router.push("/")
-                            } catch(e) {
+                            } catch {
                                 toast.error("Something went wrong")
                             }
                             setIsRemoving(false)

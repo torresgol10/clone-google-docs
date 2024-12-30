@@ -32,7 +32,7 @@ export default function RenameDialog({ documentId, initialTitle, children, }: Re
                 title: title.trim() || "Untitled"
             })
             toast.success("Document renamed ")
-        } catch (e) {
+        } catch {
             toast.error("Something went wrong")
         }
 
@@ -60,7 +60,7 @@ export default function RenameDialog({ documentId, initialTitle, children, }: Re
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Document name"
-                            onClick={(e) => { e.stopPropagation() }}
+                            onClick={(e) => e.stopPropagation()}
                         />
                     </div>
                     <DialogFooter>

@@ -23,7 +23,7 @@ export default function TemplateGallery() {
             
             toast.success("Document created")
             router.push(`/documents/${documentId}`)
-        } catch (e) {
+        } catch {
             toast.error("Something went wrong")
         }
 
