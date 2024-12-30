@@ -18,7 +18,7 @@ type User = {
     avatar: string;
 }
 
-export function Room({ children }: { children: ReactNode }) {
+export default function Room({ children }: { children: ReactNode }) {
     const params = useParams()
 
     const [users, setUsers] = useState<User[]>([])
